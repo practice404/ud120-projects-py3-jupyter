@@ -1,4 +1,4 @@
-# from nltk.stem.snowball import SnowballStemmer
+from nltk.stem.snowball import SnowballStemmer
 import string
 
 
@@ -22,20 +22,24 @@ def parse_out_text(f):
     words = ""
     if len(content) > 1:
         # remove punctuation
-        text_string = content[1].translate(string.maketrans("", ""), string.punctuation)
+        text_string = content[1].translate(str.maketrans(dict.fromkeys(string.punctuation)))
 
         # project part 2: comment out the line below
-        words = text_string
-
+        # words = text_string
         # split the text string into individual words, stem each word,
         # and append the stemmed word to words (make sure there's a single
         # space between each stemmed word)
-
+        sep_words = text_string.split(" ")
+        stemmer = SnowballStemmer('english')
+        stemmed_words = []
+        for word in sep_words:
+            stemmed_words.append(stemmer.stem(word))
+        words = " ".join(stemmed_words)
     return words
 
 
 def main():
-    with open("../11-text-learning/test_email.txt", "r") as f:
+    with open("/Users/swayam/Desktop/ud120-projects-py3-jupyter/11-text-learning/test_email.txt", "r") as f:
         text = parse_out_text(f)
     print(text)
 
